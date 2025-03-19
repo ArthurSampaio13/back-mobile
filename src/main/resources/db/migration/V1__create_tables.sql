@@ -44,7 +44,8 @@ CREATE TABLE unidades_saude (
     id SERIAL PRIMARY KEY,
     nome VARCHAR(150) NOT NULL,
     tipo tipo_unidade_saude NOT NULL,
-    horario_funcionamento VARCHAR(100) NOT NULL,
+    horario_inicio_atendimento VARCHAR(5) NOT NULL,
+    horario_fim_atendimento VARCHAR(5) NOT NULL,
     criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
