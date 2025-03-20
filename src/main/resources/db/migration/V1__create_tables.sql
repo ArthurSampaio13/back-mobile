@@ -49,6 +49,16 @@ CREATE TABLE unidades_saude (
     criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+CREATE TABLE servicos_saude (
+    id SERIAL PRIMARY KEY,
+    nome VARCHAR(150) NOT NULL,
+    descricao TEXT NOT NULL,
+    horario_inicio varchar(5) NOT NULL,
+    horario_fim varchar(5) NOT NULL,
+    unidade_saude_id INT NOT NULL,
+    FOREIGN KEY (unidade_saude_id) REFERENCES unidades_saude(id) ON DELETE CASCADE
+);
+
 CREATE TABLE telefones_unidades (
     id SERIAL PRIMARY KEY,
     unidade_id INT NOT NULL,
@@ -91,14 +101,6 @@ CREATE TABLE atendimento_hospitalar (
     horario_fim TIME NOT NULL,
     tipo tipo_atendimento NOT NULL,
     FOREIGN KEY (medico_id) REFERENCES medicos(id) ON DELETE CASCADE,
-    FOREIGN KEY (unidade_saude_id) REFERENCES unidades_saude(id) ON DELETE CASCADE
-);
-
-CREATE TABLE servicos_saude (
-    id SERIAL PRIMARY KEY,
-    nome VARCHAR(150) NOT NULL,
-    descricao TEXT NOT NULL,
-    unidade_saude_id INT NOT NULL,
     FOREIGN KEY (unidade_saude_id) REFERENCES unidades_saude(id) ON DELETE CASCADE
 );
 
