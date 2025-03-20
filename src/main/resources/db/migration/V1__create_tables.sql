@@ -1,12 +1,3 @@
-CREATE TYPE tipo_usuario AS ENUM ('cidadão', 'administrador');
-CREATE TYPE tipo_telefone_usuario AS ENUM ('Celular', 'Residencial', 'Comercial');
-CREATE TYPE tipo_unidade_saude AS ENUM ('UBS', 'Hospital', 'Farmácia');
-CREATE TYPE tipo_telefone_unidade AS ENUM ('Fixo', 'WhatsApp', 'Emergência');
-CREATE TYPE tipo_atendimento AS ENUM ('Plantão', 'Atendimento Normal', 'Emergência');
-CREATE TYPE tipo_medicamento AS ENUM ('Genérico', 'De Marca');
-CREATE TYPE status_vacinacao AS ENUM ('Ativo', 'Concluído');
-
-
 CREATE TABLE usuarios (
     id SERIAL PRIMARY KEY,
     nome VARCHAR(100) NOT NULL,
@@ -14,7 +5,7 @@ CREATE TABLE usuarios (
     cpf VARCHAR(14) UNIQUE NOT NULL,
     email VARCHAR(150) UNIQUE NOT NULL,
     senha VARCHAR(255) NOT NULL,
-    tipo_usuario tipo_usuario NOT NULL,
+    tipo_usuario varchar(50) NOT NULL,
     ativo BOOLEAN DEFAULT TRUE,
     criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
@@ -23,7 +14,7 @@ CREATE TABLE telefones_usuarios (
     id SERIAL PRIMARY KEY,
     usuario_id INT NOT NULL,
     numero VARCHAR(20) NOT NULL,
-    tipo tipo_telefone_usuario NOT NULL,
+    tipo varchar(50) NOT NULL,
     FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE
 );
 
@@ -43,7 +34,7 @@ CREATE TABLE enderecos_usuarios (
 CREATE TABLE unidades_saude (
     id SERIAL PRIMARY KEY,
     nome VARCHAR(150) NOT NULL,
-    tipo tipo_unidade_saude NOT NULL,
+    tipo varchar(50) NOT NULL,
     horario_inicio_atendimento VARCHAR(5) NOT NULL,
     horario_fim_atendimento VARCHAR(5) NOT NULL,
     criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -63,7 +54,7 @@ CREATE TABLE telefones_unidades (
     id SERIAL PRIMARY KEY,
     unidade_id INT NOT NULL,
     numero VARCHAR(20) NOT NULL,
-    tipo tipo_telefone_unidade NOT NULL,
+    tipo varchar(50) NOT NULL,
     FOREIGN KEY (unidade_id) REFERENCES unidades_saude(id) ON DELETE CASCADE
 );
 
@@ -88,19 +79,11 @@ CREATE TABLE medicos (
     crm VARCHAR(20) UNIQUE NOT NULL,
     especialidade VARCHAR(100) NOT NULL,
     unidade_saude_id INT NOT NULL,
+    data_plantao varchar(50) NOT NULL,
+    horario_inicio varchar(5) NOT NULL,
+    horario_fim varchar(5) NOT NULL,
+    tipo varchar(50) NOT NULL,
     criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (unidade_saude_id) REFERENCES unidades_saude(id) ON DELETE CASCADE
-);
-
-CREATE TABLE atendimento_hospitalar (
-    id SERIAL PRIMARY KEY,
-    medico_id INT NOT NULL,
-    unidade_saude_id INT NOT NULL,
-    data_plantao DATE NOT NULL,
-    horario_inicio TIME NOT NULL,
-    horario_fim TIME NOT NULL,
-    tipo tipo_atendimento NOT NULL,
-    FOREIGN KEY (medico_id) REFERENCES medicos(id) ON DELETE CASCADE,
     FOREIGN KEY (unidade_saude_id) REFERENCES unidades_saude(id) ON DELETE CASCADE
 );
 
@@ -109,7 +92,7 @@ CREATE TABLE medicamentos (
     nome VARCHAR(150) NOT NULL,
     descricao TEXT NOT NULL,
     quantidade INT NOT NULL,
-    tipo_medicamento tipo_medicamento NOT NULL,
+    tipo_medicamento varchar(50) NOT NULL,
     unidade_saude_id INT NOT NULL,
     FOREIGN KEY (unidade_saude_id) REFERENCES unidades_saude(id) ON DELETE CASCADE
 );
@@ -120,7 +103,7 @@ CREATE TABLE calendario_vacinacao (
     descricao TEXT NOT NULL,
     data_inicio DATE NOT NULL,
     data_fim DATE NOT NULL,
-    status status_vacinacao NOT NULL,
+    status varchar(50) NOT NULL,
     unidade_saude_id INT NOT NULL,
     FOREIGN KEY (unidade_saude_id) REFERENCES unidades_saude(id) ON DELETE CASCADE
 );
