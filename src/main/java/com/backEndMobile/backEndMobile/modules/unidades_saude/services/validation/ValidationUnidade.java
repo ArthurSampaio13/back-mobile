@@ -26,7 +26,7 @@ public class ValidationUnidade {
 
     private static void validateTipoUnidade(String tipoUnidade) {
         try {
-            TipoUnidade.valueOf(tipoUnidade);
+            TipoUnidade.fromString(tipoUnidade);
         } catch (IllegalArgumentException e) {
             throw new IllegalArgumentException("Tipo de unidade inválido");
         }
