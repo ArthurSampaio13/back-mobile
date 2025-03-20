@@ -2,8 +2,6 @@ package com.backEndMobile.backEndMobile.modules.unidades_saude.domain;
 
 import com.backEndMobile.backEndMobile.modules.unidades_saude.domain.enums.TipoUnidade;
 import jakarta.persistence.*;
-import lombok.*;
-
 import java.time.Instant;
 
 @Entity(name = "Secretaries")
@@ -82,5 +80,4 @@ public class UnidadesSaude {
     ) {
         return new UnidadesSaude(nome, tipoUnidade, horarioInicioAtendimento, horarioFimAtendimento);
     }
-
 }

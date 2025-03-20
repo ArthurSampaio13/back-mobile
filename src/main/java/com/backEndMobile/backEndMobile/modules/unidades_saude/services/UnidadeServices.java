@@ -5,6 +5,7 @@ import com.backEndMobile.backEndMobile.modules.unidades_saude.DTO.UnidadeRespons
 import com.backEndMobile.backEndMobile.modules.unidades_saude.domain.UnidadesSaude;
 import com.backEndMobile.backEndMobile.modules.unidades_saude.domain.enums.TipoUnidade;
 import com.backEndMobile.backEndMobile.modules.unidades_saude.repository.UnidadeSaudeRepository;
+import com.backEndMobile.backEndMobile.modules.unidades_saude.services.validation.ValidationUnidade;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,7 +18,7 @@ public class UnidadeServices {
     }
 
     public UnidadeResponse createUnidade(UnidadeRequest unidadeRequest) {
-
+        ValidationUnidade.validateCreateUnidade(unidadeRequest);
         UnidadesSaude unidade = mapperRequestToDomain(unidadeRequest);
         unidadeSaudeRepository.save(unidade);
         return mapperDomainToResponse(unidade);
