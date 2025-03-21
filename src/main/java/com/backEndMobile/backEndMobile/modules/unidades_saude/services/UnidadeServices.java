@@ -1,5 +1,7 @@
 package com.backEndMobile.backEndMobile.modules.unidades_saude.services;
 
+import com.backEndMobile.backEndMobile.modules.servicos_saude.DTO.ServicosSaudeResponse;
+import com.backEndMobile.backEndMobile.modules.servicos_saude.domain.ServicosSaude;
 import com.backEndMobile.backEndMobile.modules.servicos_saude.repository.ServicosSaudeRepository;
 import com.backEndMobile.backEndMobile.modules.unidades_saude.DTO.UnidadeRequest;
 import com.backEndMobile.backEndMobile.modules.unidades_saude.DTO.UnidadeResponse;
@@ -67,13 +69,27 @@ public class UnidadeServices {
     }
 
     private UnidadeResponse mapperDomainToResponse(UnidadesSaude unidade) {
+        List<ServicosSaude> servicosSaude = servicosSaudeRepository.findByUnidadeSaudeId(unidade.getId());
+
+        List<ServicosSaudeResponse> servicosSaudeResponse = servicosSaude.stream()
+                .map(servico -> new ServicosSaudeResponse(
+                        servico.getId(),
+                        servico.getNome(),
+                        servico.getDescricao(),
+                        servico.getHorarioInicio(),
+                        servico.getHorarioFim(),
+                        servico.getUnidadeSaude().getId()
+                ))
+                .toList();
+
         return new UnidadeResponse(
                 unidade.getId(),
                 unidade.getNome(),
                 unidade.getTipoUnidade().toString(),
                 unidade.getHorarioInicioAtendimento(),
                 unidade.getHorarioFimAtendimento(),
-                unidade.getCriadoEm()
+                unidade.getCriadoEm(),
+                servicosSaudeResponse
         );
     }
 }
