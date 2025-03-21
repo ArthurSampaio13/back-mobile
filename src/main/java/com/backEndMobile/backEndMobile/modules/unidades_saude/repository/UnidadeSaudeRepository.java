@@ -7,4 +7,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UnidadeSaudeRepository extends JpaRepository<UnidadesSaude, Long> {
 
+
 }
