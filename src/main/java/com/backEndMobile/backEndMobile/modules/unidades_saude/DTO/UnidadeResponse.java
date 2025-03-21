@@ -1,11 +1,16 @@
 package com.backEndMobile.backEndMobile.modules.unidades_saude.DTO;
 
+import com.backEndMobile.backEndMobile.modules.servicos_saude.DTO.ServicosSaudeResponse;
+
+import java.util.List;
+
 public record UnidadeResponse(
         Long id,
         String nome,
         String tipoUnidade,
         String horarioInicioAtendimento,
         String horarioFimAtendimento,
-        String criadoEm
+        String criadoEm,
+        List<ServicosSaudeResponse> servicosSaudeList
 ) {
 }
