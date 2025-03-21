@@ -12,7 +12,7 @@ public class UnidadesSaude {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "name")
+    @Column(name = "nome")
     private String nome;
 
     @Column(name = "tipo")
