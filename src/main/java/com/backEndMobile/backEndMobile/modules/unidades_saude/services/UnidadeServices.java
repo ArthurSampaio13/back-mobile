@@ -1,5 +1,6 @@
 package com.backEndMobile.backEndMobile.modules.unidades_saude.services;
 
+import com.backEndMobile.backEndMobile.modules.servicos_saude.repository.ServicosSaudeRepository;
 import com.backEndMobile.backEndMobile.modules.unidades_saude.DTO.UnidadeRequest;
 import com.backEndMobile.backEndMobile.modules.unidades_saude.DTO.UnidadeResponse;
 import com.backEndMobile.backEndMobile.modules.unidades_saude.domain.UnidadesSaude;
@@ -7,14 +8,18 @@ import com.backEndMobile.backEndMobile.modules.unidades_saude.domain.enums.TipoU
 import com.backEndMobile.backEndMobile.modules.unidades_saude.repository.UnidadeSaudeRepository;
 import com.backEndMobile.backEndMobile.modules.unidades_saude.services.validation.ValidationUnidade;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
 public class UnidadeServices {
     private final UnidadeSaudeRepository unidadeSaudeRepository;
-    public UnidadeServices(UnidadeSaudeRepository unidadeSaudeRepository) {
+    private final ServicosSaudeRepository servicosSaudeRepository;
+
+    public UnidadeServices(UnidadeSaudeRepository unidadeSaudeRepository, ServicosSaudeRepository servicosSaudeRepository) {
         this.unidadeSaudeRepository = unidadeSaudeRepository;
+        this.servicosSaudeRepository = servicosSaudeRepository;
     }
 
     public UnidadeResponse createUnidade(UnidadeRequest unidadeRequest) {
@@ -30,6 +35,15 @@ public class UnidadeServices {
                 .orElseThrow(() -> new RuntimeException("Unidade não encontrada"));
     }
 
+    public UnidadesSaude getUnidadeById(Long id) {
+        return unidadeSaudeRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Unidade não encontrada"));
+    }
+
+    public Boolean validateUnidadeSaudeId(Long id) {
+        return unidadeSaudeRepository.existsById(id);
+    }
+
     public List<UnidadeResponse> getAllUnidades() {
         List<UnidadesSaude> unidades = unidadeSaudeRepository.findAll();
         return unidades.stream()
@@ -37,7 +51,9 @@ public class UnidadeServices {
                 .toList();
     }
 
+    @Transactional
     public void deleteUnidade(Long id) {
+        servicosSaudeRepository.deleteByUnidadeSaudeId(id);
         unidadeSaudeRepository.deleteById(id);
     }
 
