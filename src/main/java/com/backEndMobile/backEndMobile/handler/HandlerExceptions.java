@@ -1,9 +1,6 @@
 package com.backEndMobile.backEndMobile.handler;
 
-import com.backEndMobile.backEndMobile.exceptions.BlankValueException;
-import com.backEndMobile.backEndMobile.exceptions.ExceptionResponse;
-import com.backEndMobile.backEndMobile.exceptions.InvalidTimeFormatException;
-import com.backEndMobile.backEndMobile.exceptions.InvalidTimeRangeException;
+import com.backEndMobile.backEndMobile.exceptions.*;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -56,6 +53,17 @@ public class HandlerExceptions {
     })
     @ExceptionHandler(InvalidTimeRangeException.class)
     public final ResponseEntity<ExceptionResponse> handleInvalidTimeRangeException(InvalidTimeRangeException ex, WebRequest request) {
+        ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(), ex.getMessage(), request.getDescription(false));
+        return new ResponseEntity<>(exceptionResponse, HttpStatus.BAD_REQUEST);
+    }
+
+
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "404", description = "Recurso não encontrado",
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = ExceptionResponse.class)))
+    })
+    @ExceptionHandler(UnityHealthNotaFoundException.class)
+    public final ResponseEntity<ExceptionResponse> handleUnityHealthNotaFoundException(UnityHealthNotaFoundException ex, WebRequest request) {
         ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(), ex.getMessage(), request.getDescription(false));
         return new ResponseEntity<>(exceptionResponse, HttpStatus.BAD_REQUEST);
     }
