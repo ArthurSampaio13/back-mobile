@@ -21,14 +21,14 @@ public class ServicosSaudeController {
         this.servicosSaudeServices = servicosSaudeServices;
     }
 
-    @PostMapping
+    @PostMapping("/")
     public ResponseEntity<ServicosSaudeResponse> createServicosSaude(@RequestBody ServicosSaudeRequest servicosSaudeRequest) {
         ServicosSaudeResponse response = servicosSaudeServices.createServicosSaude(servicosSaudeRequest);
         URI uri = URI.create("/servicos-saude/" + response.id());
         return ResponseEntity.created(uri).body(response);
     }
 
-    @GetMapping
+    @GetMapping("/")
     public ResponseEntity<List<ServicosSaudeResponse>> getAllServicosSaude() {
         List<ServicosSaudeResponse> response = servicosSaudeServices.getAllServicosSaude();
         return ResponseEntity.ok().body(response);

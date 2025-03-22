@@ -13,9 +13,7 @@ public class ValidationServicosSaude {
         validateIsBlank(servicosSaudeRequest.descricao(), "Descrição do serviço de saúde não pode ser vazia");
         validateIsBlank(servicosSaudeRequest.horarioInicio(), "Horário de início do serviço de saúde não pode ser vazio");
         validateIsBlank(servicosSaudeRequest.horarioFim(), "Horário de fim do serviço de saúde não pode ser vazio");
-
         validateHorario(servicosSaudeRequest.horarioInicio(), servicosSaudeRequest.horarioFim());
-
         validateLengthMin(servicosSaudeRequest.nome());
         validateLengthMin(servicosSaudeRequest.descricao());
     }
