@@ -25,7 +25,11 @@ public class ServicosSaude {
     private String horarioFim;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "unidade_saude_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(
+            name = "unidade_saude_id",
+            referencedColumnName = "id",
+            nullable = false
+    )
     private UnidadesSaude unidadeSaude;
 
     public ServicosSaude() {}
