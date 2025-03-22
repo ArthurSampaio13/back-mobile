@@ -46,5 +46,4 @@ public class UnidadeController {
         unidadeServices.deleteUnidade(id);
         return ResponseEntity.ok().build();
     }
-
 }

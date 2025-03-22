@@ -1,45 +1,50 @@
 package com.backEndMobile.backEndMobile.modules.unidades_saude.services;
 
-import com.backEndMobile.backEndMobile.modules.servicos_saude.DTO.ServicosSaudeResponse;
-import com.backEndMobile.backEndMobile.modules.servicos_saude.domain.ServicosSaude;
+import com.backEndMobile.backEndMobile.exceptions.UnityHealthNotaFoundException;
 import com.backEndMobile.backEndMobile.modules.servicos_saude.repository.ServicosSaudeRepository;
 import com.backEndMobile.backEndMobile.modules.unidades_saude.DTO.UnidadeRequest;
 import com.backEndMobile.backEndMobile.modules.unidades_saude.DTO.UnidadeResponse;
 import com.backEndMobile.backEndMobile.modules.unidades_saude.domain.UnidadesSaude;
-import com.backEndMobile.backEndMobile.modules.unidades_saude.domain.enums.TipoUnidade;
 import com.backEndMobile.backEndMobile.modules.unidades_saude.repository.UnidadeSaudeRepository;
+import com.backEndMobile.backEndMobile.modules.unidades_saude.services.mapper.MapperUnidadeSaude;
 import com.backEndMobile.backEndMobile.modules.unidades_saude.services.validation.ValidationUnidade;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class UnidadeServices {
     private final UnidadeSaudeRepository unidadeSaudeRepository;
     private final ServicosSaudeRepository servicosSaudeRepository;
+    private final MapperUnidadeSaude mapperUnidadeSaude;
 
-    public UnidadeServices(UnidadeSaudeRepository unidadeSaudeRepository, ServicosSaudeRepository servicosSaudeRepository) {
+    public UnidadeServices(UnidadeSaudeRepository unidadeSaudeRepository,
+                           ServicosSaudeRepository servicosSaudeRepository,
+                           MapperUnidadeSaude mapperUnidadeSaude
+    ) {
         this.unidadeSaudeRepository = unidadeSaudeRepository;
         this.servicosSaudeRepository = servicosSaudeRepository;
+        this.mapperUnidadeSaude = mapperUnidadeSaude;
     }
 
     public UnidadeResponse createUnidade(UnidadeRequest unidadeRequest) {
         ValidationUnidade.validateCreateUnidade(unidadeRequest);
-        UnidadesSaude unidade = mapperRequestToDomain(unidadeRequest);
+        UnidadesSaude unidade = mapperUnidadeSaude.mapperRequstToDomain(unidadeRequest);
         unidadeSaudeRepository.save(unidade);
-        return mapperDomainToResponse(unidade);
+        return mapperUnidadeSaude.mapperDomainToResponse(unidade);
     }
 
     public UnidadeResponse getUnidade(Long id) {
         return unidadeSaudeRepository.findById(id)
-                .map(this::mapperDomainToResponse)
-                .orElseThrow(() -> new RuntimeException("Unidade não encontrada"));
+                .map(mapperUnidadeSaude::mapperDomainToResponse)
+                .orElseThrow(() -> new UnityHealthNotaFoundException("Unidade não encontrada"));
     }
 
     public UnidadesSaude getUnidadeById(Long id) {
         return unidadeSaudeRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Unidade não encontrada"));
+                .orElseThrow(() -> new UnityHealthNotaFoundException("Unidade não encontrada"));
     }
 
     public Boolean validateUnidadeSaudeId(Long id) {
@@ -49,47 +54,13 @@ public class UnidadeServices {
     public List<UnidadeResponse> getAllUnidades() {
         List<UnidadesSaude> unidades = unidadeSaudeRepository.findAll();
         return unidades.stream()
-                .map(this::mapperDomainToResponse)
-                .toList();
+                .map(mapperUnidadeSaude::mapperDomainToResponse)
+                .collect(Collectors.toList());
     }
 
     @Transactional
     public void deleteUnidade(Long id) {
         servicosSaudeRepository.deleteByUnidadeSaudeId(id);
         unidadeSaudeRepository.deleteById(id);
-    }
-
-    private UnidadesSaude mapperRequestToDomain(UnidadeRequest unidadeRequest) {
-        return UnidadesSaude.newUnidadeSaude(
-                unidadeRequest.nome(),
-                TipoUnidade.fromString(unidadeRequest.tipoUnidade()),
-                unidadeRequest.horarioInicioAtendimento(),
-                unidadeRequest.horarioFimAtendimento()
-        );
-    }
-
-    private UnidadeResponse mapperDomainToResponse(UnidadesSaude unidade) {
-        List<ServicosSaude> servicosSaude = servicosSaudeRepository.findByUnidadeSaudeId(unidade.getId());
-
-        List<ServicosSaudeResponse> servicosSaudeResponse = servicosSaude.stream()
-                .map(servico -> new ServicosSaudeResponse(
-                        servico.getId(),
-                        servico.getNome(),
-                        servico.getDescricao(),
-                        servico.getHorarioInicio(),
-                        servico.getHorarioFim(),
-                        servico.getUnidadeSaude().getId()
-                ))
-                .toList();
-
-        return new UnidadeResponse(
-                unidade.getId(),
-                unidade.getNome(),
-                unidade.getTipoUnidade().toString(),
-                unidade.getHorarioInicioAtendimento(),
-                unidade.getHorarioFimAtendimento(),
-                unidade.getCriadoEm(),
-                servicosSaudeResponse
-        );
     }
 }

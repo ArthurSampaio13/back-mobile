@@ -1,10 +1,8 @@
 package com.backEndMobile.backEndMobile.modules.unidades_saude.domain;
 
-import com.backEndMobile.backEndMobile.modules.servicos_saude.domain.ServicosSaude;
 import com.backEndMobile.backEndMobile.modules.unidades_saude.domain.enums.TipoUnidade;
 import jakarta.persistence.*;
-import java.time.Instant;
-import java.util.List;
+import java.time.LocalDateTime;
 
 @Entity(name = "Secretaries")
 @Table(name = "unidades_saude")
@@ -28,14 +26,11 @@ public class UnidadesSaude {
     private String horarioFimAtendimento;
 
     @Column(name = "criado_em")
-    private String criadoEm;
-
-    @OneToMany(mappedBy = "unidadeSaude", fetch = FetchType.LAZY)
-    private List<ServicosSaude> servicosSaudeList;
+    private LocalDateTime criadoEm;
 
     @PrePersist
     protected void prePersist() {
-        criadoEm = Instant.now().toString();
+        criadoEm = LocalDateTime.now();
     }
 
     public UnidadesSaude() {
@@ -53,22 +48,13 @@ public class UnidadesSaude {
         this.horarioFimAtendimento = horarioFimAtendimento;
     }
 
-    private UnidadesSaude(
-            Long id,
+    public static UnidadesSaude newUnidadeSaude(
             String nome,
             TipoUnidade tipoUnidade,
             String horarioInicioAtendimento,
-            String horarioFimAtendimento,
-            String criadoEm,
-            List<ServicosSaude> servicosSaudeList
+            String horarioFimAtendimento
     ) {
-        this.id = id;
-        this.nome = nome;
-        this.tipoUnidade = tipoUnidade;
-        this.horarioInicioAtendimento = horarioInicioAtendimento;
-        this.horarioFimAtendimento = horarioFimAtendimento;
-        this.criadoEm = criadoEm;
-        this.servicosSaudeList = servicosSaudeList;
+        return new UnidadesSaude(nome, tipoUnidade, horarioInicioAtendimento, horarioFimAtendimento);
     }
 
     public Long getId() {
@@ -91,28 +77,7 @@ public class UnidadesSaude {
         return horarioFimAtendimento;
     }
 
-    public String getCriadoEm() {
+    public LocalDateTime getCriadoEm() {
         return criadoEm;
-    }
-
-    public static UnidadesSaude newUnidadeSaude(
-            String nome,
-            TipoUnidade tipoUnidade,
-            String horarioInicioAtendimento,
-            String horarioFimAtendimento
-    ) {
-        return new UnidadesSaude(nome, tipoUnidade, horarioInicioAtendimento, horarioFimAtendimento);
-    }
-
-    public static UnidadesSaude newUnidadeSaude(
-            Long id,
-            String nome,
-            TipoUnidade tipoUnidade,
-            String horarioInicioAtendimento,
-            String horarioFimAtendimento,
-            String criadoEm,
-            List<ServicosSaude> servicosSaudeList
-    ) {
-        return new UnidadesSaude(id, nome, tipoUnidade, horarioInicioAtendimento, horarioFimAtendimento, criadoEm, servicosSaudeList);
     }
 }

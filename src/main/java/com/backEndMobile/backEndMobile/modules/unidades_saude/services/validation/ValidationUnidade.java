@@ -12,9 +12,7 @@ public class ValidationUnidade {
         validateBlank(unidadeRequest.tipoUnidade(), "Tipo da unidade não pode ser vazio");
         validateBlank(unidadeRequest.horarioInicioAtendimento(), "Horário de início de atendimento não pode ser vazio");
         validateBlank(unidadeRequest.horarioFimAtendimento(), "Horário de fim de atendimento não pode ser vazio");
-
         validateHorario(unidadeRequest.horarioInicioAtendimento(), unidadeRequest.horarioFimAtendimento());
-
         validateTipoUnidade(unidadeRequest.tipoUnidade());
     }
 
