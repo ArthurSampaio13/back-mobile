@@ -6,7 +6,6 @@ import com.backEndMobile.backEndMobile.modules.servicos_saude.DTO.ServicosSaudeR
 import java.util.List;
 
 public record UnidadeResponse(
-        Long id,
         String nome,
         String tipoUnidade,
         String horarioInicioAtendimento,
