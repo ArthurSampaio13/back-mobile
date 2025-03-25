@@ -1,5 +1,7 @@
+CREATE EXTENSION IF NOT EXISTS pgcrypto;
+
 CREATE TABLE usuarios (
-    id SERIAL PRIMARY KEY,
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     nome VARCHAR(100) NOT NULL,
     sobrenome VARCHAR(100) NOT NULL,
     cpf VARCHAR(14) UNIQUE NOT NULL,
@@ -11,7 +13,7 @@ CREATE TABLE usuarios (
 );
 
 CREATE TABLE telefones_usuarios (
-    id SERIAL PRIMARY KEY,
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     usuario_id INT NOT NULL,
     numero VARCHAR(20) NOT NULL,
     tipo varchar(50) NOT NULL,
@@ -19,7 +21,7 @@ CREATE TABLE telefones_usuarios (
 );
 
 CREATE TABLE enderecos_usuarios (
-    id SERIAL PRIMARY KEY,
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     usuario_id INT NOT NULL,
     logradouro VARCHAR(255) NOT NULL,
     numero VARCHAR(10) NOT NULL,
@@ -32,7 +34,7 @@ CREATE TABLE enderecos_usuarios (
 );
 
 CREATE TABLE unidades_saude (
-    id SERIAL PRIMARY KEY,
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     nome VARCHAR(150) NOT NULL,
     tipo varchar(50) NOT NULL,
     horario_inicio_atendimento VARCHAR(5) NOT NULL,
@@ -41,7 +43,7 @@ CREATE TABLE unidades_saude (
 );
 
 CREATE TABLE servicos_saude (
-    id SERIAL PRIMARY KEY,
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     nome VARCHAR(150) NOT NULL,
     descricao TEXT NOT NULL,
     horario_inicio varchar(5) NOT NULL,
@@ -51,7 +53,7 @@ CREATE TABLE servicos_saude (
 );
 
 CREATE TABLE telefones_unidades (
-    id SERIAL PRIMARY KEY,
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     unidade_id INT NOT NULL,
     numero VARCHAR(20) NOT NULL,
     tipo varchar(50) NOT NULL,
@@ -59,7 +61,7 @@ CREATE TABLE telefones_unidades (
 );
 
 CREATE TABLE enderecos_unidades (
-    id SERIAL PRIMARY KEY,
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     unidade_id INT NOT NULL,
     logradouro VARCHAR(255) NOT NULL,
     numero VARCHAR(10) NOT NULL,
@@ -74,7 +76,7 @@ CREATE TABLE enderecos_unidades (
 );
 
 CREATE TABLE medicos (
-    id SERIAL PRIMARY KEY,
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     nome VARCHAR(150) NOT NULL,
     crm VARCHAR(20) UNIQUE NOT NULL,
     especialidade VARCHAR(100) NOT NULL,
@@ -88,7 +90,7 @@ CREATE TABLE medicos (
 );
 
 CREATE TABLE medicamentos (
-    id SERIAL PRIMARY KEY,
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     nome VARCHAR(150) NOT NULL,
     descricao TEXT NOT NULL,
     quantidade INT NOT NULL,
@@ -98,7 +100,7 @@ CREATE TABLE medicamentos (
 );
 
 CREATE TABLE calendario_vacinacao (
-    id SERIAL PRIMARY KEY,
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     vacina VARCHAR(150) NOT NULL,
     descricao TEXT NOT NULL,
     data_inicio DATE NOT NULL,
@@ -109,7 +111,7 @@ CREATE TABLE calendario_vacinacao (
 );
 
 CREATE TABLE noticias (
-    id SERIAL PRIMARY KEY,
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     titulo VARCHAR(255) NOT NULL,
     conteudo TEXT NOT NULL,
     data_publicacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
