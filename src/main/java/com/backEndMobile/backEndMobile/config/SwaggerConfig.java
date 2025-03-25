@@ -11,8 +11,8 @@ public class SwaggerConfig {
     @Bean
     public OpenAPI openAPI() {
         return new OpenAPI().info(new Info()
-                .title("Opinaai")
-                .description("API responsável pelo back-end do sistema da opinaai")
+                .title("BitHealth API")
+                .description("API responsável pelo back-end do BitHealth")
                 .version("1.0"));
     }
 }
