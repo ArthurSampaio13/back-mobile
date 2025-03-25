@@ -5,10 +5,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.UUID;
 
 @Repository
-public interface ServicosSaudeRepository extends JpaRepository<ServicosSaude, Long> {
-    void deleteByUnidadeSaudeId(Long id);
+public interface ServicosSaudeRepository extends JpaRepository<ServicosSaude, UUID> {
+    void deleteByUnidadeSaudeId(UUID id);
 
-    List<ServicosSaude> findByUnidadeSaudeId(Long id);
+    List<ServicosSaude> findByUnidadeSaudeId(UUID id);
 }

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/servicos-saude")
@@ -24,7 +25,7 @@ public class ServicosSaudeController {
     @PostMapping("/")
     public ResponseEntity<ServicosSaudeResponse> createServicosSaude(@RequestBody ServicosSaudeRequest servicosSaudeRequest) {
         ServicosSaudeResponse response = servicosSaudeServices.createServicosSaude(servicosSaudeRequest);
-        URI uri = URI.create("/servicos-saude/" + response.id());
+        URI uri = URI.create("/servicos-saude/" + response.nome());
         return ResponseEntity.created(uri).body(response);
     }
 
@@ -35,7 +36,7 @@ public class ServicosSaudeController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteServicosSaude(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteServicosSaude(@PathVariable UUID id) {
         servicosSaudeServices.deleteServicosSaude(id);
         return ResponseEntity.noContent().build();
     }
