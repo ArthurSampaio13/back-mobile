@@ -3,14 +3,15 @@ package com.backEndMobile.backEndMobile.modules.unidades_saude.domain;
 import com.backEndMobile.backEndMobile.modules.unidades_saude.domain.enums.TipoUnidade;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Entity(name = "Secretaries")
 @Table(name = "unidades_saude")
 public class UnidadesSaude {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
 
     @Column(name = "nome")
     private String nome;
@@ -57,7 +58,7 @@ public class UnidadesSaude {
         return new UnidadesSaude(nome, tipoUnidade, horarioInicioAtendimento, horarioFimAtendimento);
     }
 
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 

@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -36,18 +37,18 @@ public class UnidadeServices {
         return mapperUnidadeSaude.mapperDomainToResponse(unidade);
     }
 
-    public UnidadeResponse getUnidade(Long id) {
+    public UnidadeResponse getUnidade(UUID id) {
         return unidadeSaudeRepository.findById(id)
                 .map(mapperUnidadeSaude::mapperDomainToResponse)
                 .orElseThrow(() -> new UnityHealthNotaFoundException("Unidade não encontrada"));
     }
 
-    public UnidadesSaude getUnidadeById(Long id) {
+    public UnidadesSaude getUnidadeById(UUID id) {
         return unidadeSaudeRepository.findById(id)
                 .orElseThrow(() -> new UnityHealthNotaFoundException("Unidade não encontrada"));
     }
 
-    public Boolean validateUnidadeSaudeId(Long id) {
+    public Boolean validateUnidadeSaudeId(UUID id) {
         return unidadeSaudeRepository.existsById(id);
     }
 
@@ -59,7 +60,7 @@ public class UnidadeServices {
     }
 
     @Transactional
-    public void deleteUnidade(Long id) {
+    public void deleteUnidade(UUID id) {
         servicosSaudeRepository.deleteByUnidadeSaudeId(id);
         unidadeSaudeRepository.deleteById(id);
     }
