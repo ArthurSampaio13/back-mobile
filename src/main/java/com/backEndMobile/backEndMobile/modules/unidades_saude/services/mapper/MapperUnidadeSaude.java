@@ -40,28 +40,23 @@ public class MapperUnidadeSaude {
 
         List<MedicamentoResponse> medicamentosResponseList = medicamentos.stream()
                 .map(medicamento -> new MedicamentoResponse(
-                        medicamento.getId(),
                         medicamento.getNome(),
                         medicamento.getDescricao(),
                         medicamento.getQuantidade(),
-                        medicamento.getTipoMedicamento().toString(),
-                        medicamento.getUnidadesSaude().getId()
+                        medicamento.getTipoMedicamento().toString()
                 ))
                 .toList();
 
         List<ServicosSaudeResponse> servicosSaudeResponse = servicosSaude.stream()
                 .map(servico -> new ServicosSaudeResponse(
-                        servico.getId(),
                         servico.getNome(),
                         servico.getDescricao(),
                         servico.getHorarioInicio(),
-                        servico.getHorarioFim(),
-                        servico.getUnidadeSaude().getId()
+                        servico.getHorarioFim()
                 ))
                 .toList();
 
         return new UnidadeResponse(
-                unidade.getId(),
                 unidade.getNome(),
                 unidade.getTipoUnidade().toString(),
                 unidade.getHorarioInicioAtendimento(),

@@ -7,6 +7,8 @@ import com.backEndMobile.backEndMobile.modules.unidades_saude.domain.UnidadesSau
 import com.backEndMobile.backEndMobile.modules.unidades_saude.services.UnidadeServices;
 import org.springframework.stereotype.Component;
 
+import java.util.UUID;
+
 @Component
 public class MapperServicosSaude {
 
@@ -17,7 +19,7 @@ public class MapperServicosSaude {
     }
 
     public ServicosSaude mapperRequestToDomain(ServicosSaudeRequest servicosSaudeRequest) {
-        UnidadesSaude unidadeSaude  = unidadeServices.getUnidadeById(servicosSaudeRequest.unidadeSaudeId());
+        UnidadesSaude unidadeSaude  = unidadeServices.getUnidadeById(UUID.fromString(servicosSaudeRequest.unidadeSaudeId()));
 
         return ServicosSaude.newServicosSaude(
                 servicosSaudeRequest.nome(),
@@ -29,12 +31,10 @@ public class MapperServicosSaude {
 
     public ServicosSaudeResponse mapperDomainToResponse(ServicosSaude servicosSaude) {
         return new ServicosSaudeResponse(
-                servicosSaude.getId(),
                 servicosSaude.getNome(),
                 servicosSaude.getDescricao(),
                 servicosSaude.getHorarioInicio(),
-                servicosSaude.getHorarioFim(),
-                servicosSaude.getUnidadeSaude().getId()
+                servicosSaude.getHorarioFim()
         );
     }
 }

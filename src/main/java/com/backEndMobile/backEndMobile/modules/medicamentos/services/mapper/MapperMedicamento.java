@@ -32,12 +32,10 @@ public class MapperMedicamento {
 
     public MedicamentoResponse mapperDomainToResponse(Medicamento medicamento) {
         return new MedicamentoResponse(
-                medicamento.getId(),
                 medicamento.getNome(),
                 medicamento.getDescricao(),
                 medicamento.getQuantidade(),
-                medicamento.getTipoMedicamento().toString(),
-                medicamento.getUnidadesSaude().getId()
+                medicamento.getTipoMedicamento().toString()
         );
     }
 }
