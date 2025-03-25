@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/medicamentos")
@@ -22,18 +23,16 @@ public class MedicamentoController {
     @PostMapping("/")
     public ResponseEntity<MedicamentoResponse> createMedicamento(@RequestBody MedicamentoRequest medicamentoRequest) {
         MedicamentoResponse response = medicamentoServices.createMedicamento(medicamentoRequest);
-        URI uri = URI.create("/medicamentos/" + response.id());
+        URI uri = URI.create("/medicamentos/" + response.nome());
         return ResponseEntity.created(uri).body(response);
     }
 
     @PostMapping("create-all")
     public ResponseEntity<List<MedicamentoResponse>> createAllMedicamento(@RequestBody List<MedicamentoRequest> medicamentoRequest) {
         List<MedicamentoResponse> response = medicamentoServices.createAllMedicamento(medicamentoRequest);
-        URI uri = URI.create("/medicamentos/" + response.get(0).id());
+        URI uri = URI.create("/medicamentos/" + response.get(0).nome());
         return ResponseEntity.created(uri).body(response);
     }
-
-
 
     @GetMapping("/")
     public ResponseEntity<List<MedicamentoResponse>> getAllMedicamento() {
@@ -42,13 +41,13 @@ public class MedicamentoController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteMedicamento(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteMedicamento(@PathVariable UUID id) {
         medicamentoServices.deleteMedicamento(id);
         return ResponseEntity.noContent().build();
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<MedicamentoRequest> updateMedicamento(@RequestBody MedicamentoRequest medicamentoRequest, @PathVariable Long id) {
+    public ResponseEntity<MedicamentoRequest> updateMedicamento(@RequestBody MedicamentoRequest medicamentoRequest, @PathVariable UUID id) {
         MedicamentoRequest response = medicamentoServices.updateMedicamento(medicamentoRequest, id);
         return ResponseEntity.ok().body(response);
     }

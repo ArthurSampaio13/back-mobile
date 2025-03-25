@@ -5,13 +5,15 @@ import com.backEndMobile.backEndMobile.modules.medicamentos.domain.enums.TipoMed
 import com.backEndMobile.backEndMobile.modules.unidades_saude.domain.UnidadesSaude;
 import jakarta.persistence.*;
 
+import java.util.UUID;
+
 @Entity(name = "Medicamento")
 @Table(name = "medicamentos")
 public class Medicamento {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
 
     @Column(name = "nome")
     private String nome;
@@ -60,7 +62,7 @@ public class Medicamento {
         return new Medicamento(nome, descricao, quantidade, tipoMedicamento, unidadesSaude);
     }
 
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 
@@ -84,7 +86,7 @@ public class Medicamento {
         return unidadesSaude;
     }
 
-    public void setId(Long id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 

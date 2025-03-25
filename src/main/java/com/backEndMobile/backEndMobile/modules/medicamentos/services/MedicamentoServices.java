@@ -14,6 +14,7 @@ import com.backEndMobile.backEndMobile.modules.unidades_saude.repository.Unidade
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -56,11 +57,11 @@ public class MedicamentoServices {
                 .collect(Collectors.toList());
     }
 
-    public void deleteMedicamento(Long id) {
+    public void deleteMedicamento(UUID id) {
         medicamentoRepository.deleteById(id);
     }
 
-    public MedicamentoRequest updateMedicamento(MedicamentoRequest medicamentoRequest, Long id) {
+    public MedicamentoRequest updateMedicamento(MedicamentoRequest medicamentoRequest, UUID id) {
         ValidationMedicamento.validateMedicamentoRequest(medicamentoRequest);
 
         Medicamento medicamento = medicamentoRepository.findById(id)
@@ -78,7 +79,7 @@ public class MedicamentoServices {
         return medicamentoRequest;
     }
 
-    private void verifyUnidadeSaudeExists(Long id) {
+    private void verifyUnidadeSaudeExists(UUID id) {
         if (Boolean.FALSE.equals(unidadeSaudeRepository.existsById(id))) {
             throw new UnityHealthNotaFoundException("Unidade de saúde não encontrada");
         }
